@@ -1,0 +1,248 @@
+.landingPageContainer {
+  width: 100vw;
+  height: 100vh;
+  background: url("./assets/background.png") center/cover no-repeat;
+  color: #f5f5f5;
+  font-family: "Poppins", sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+p.joinGuest,
+p.register {
+  cursor: pointer;
+  color: #ff9839;
+  font-weight: 500;
+  transition: color 0.25s ease, transform 0.2s ease;
+}
+
+p.joinGuest:hover,
+p.register:hover {
+  color: #ff7b00;
+  transform: translateY(-1px);
+}
+
+/* Navbar */
+.landingPageContainer nav {
+  padding: 1.4rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.landingPageContainer nav h2 {
+  font-size: 1.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+.landingPageContainer nav .navlist {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.landingPageContainer nav .navlist a {
+  text-decoration: none;
+  color: #f5f5f5;
+  font-weight: 400;
+  transition: color 0.2s ease-in;
+}
+
+.landingPageContainer nav .navlist a:hover {
+  color: #ff9839;
+}
+
+/* Button (used for login / get started) */
+button {
+  padding: 8px 16px;
+  cursor: pointer;
+  background-color: #ff9839;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: 500;
+  transition: all 0.25s ease;
+}
+
+button:hover {
+  background-color: #ff7b00;
+  transform: translateY(-1px);
+}
+
+/* Main Section */
+.landingMainContainer {
+  flex: 1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 4rem;
+}
+
+.landingMainContainer > div:nth-child(1) {
+  max-width: 600px;
+  line-height: 1.3;
+}
+
+.landingMainContainer > div:nth-child(1) h1 {
+  font-size: 2.8rem;
+  margin-bottom: 1rem;
+}
+
+.landingMainContainer > div:nth-child(1) h1 span {
+  color: #ff9839;
+}
+
+.landingMainContainer > div:nth-child(1) p {
+  font-size: 1.2rem;
+  opacity: 0.85;
+}
+
+.landingMainContainer > div:nth-child(1) div[role="button"] {
+  background-color: #ff9839;
+  width: fit-content;
+  padding: 0.8rem 1.6rem;
+  border-radius: 10px;
+  margin-top: 2rem;
+  transition: all 0.3s ease;
+}
+
+.landingMainContainer > div:nth-child(1) div[role="button"]:hover {
+  background-color: #ff7b00;
+  transform: translateY(-2px);
+}
+
+.landingMainContainer > div:nth-child(1) div[role="button"] a {
+  text-decoration: none;
+  color: white;
+  font-size: 1.2rem;
+  font-weight: 500;
+}
+
+/* Right Section */
+.landingMainContainer > div:nth-child(2) img {
+  height: 65vh;
+  width: auto;
+  border-radius: 16px;
+  object-fit: cover;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.4));
+}
+
+/* home pages styling  */
+
+.homeContainer {
+  min-height: 100vh;
+  background-color: #222;
+  color: white;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Navbar */
+.navBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 40px;
+  background-color: #1a1a1a;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.logo {
+  font-weight: 600;
+  color: #f5f5f5;
+}
+
+.navButtons {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.navBtn {
+  background: transparent;
+  color: #fff;
+  border: 1px solid #007bff;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.navBtn:hover {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.logoutBtn {
+  background: transparent;
+  color: #007bff;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.logoutBtn:hover {
+  text-decoration: underline;
+}
+
+/* Meeting Section */
+.meetContainer {
+  display: flex;
+  padding-inline: 40px;
+  padding-top: 60px;
+  height: 80vh;
+  gap: 10vw;
+  justify-content: center;
+}
+
+.leftPanel {
+  display: flex;
+  align-items: center;
+}
+
+.leftPanel h3 {
+  font-weight: 600;
+  font-size: 1.3rem;
+  margin-bottom: 20px;
+}
+
+.joinContainer {
+  display: flex;
+  gap: 10px;
+}
+
+.meetingInput {
+  padding: 10px 14px;
+  border-radius: 6px;
+  border: none;
+  width: 220px;
+  outline: none;
+}
+
+.joinBtn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.joinBtn:hover {
+  background-color: #0056b3;
+}
+
+/* Right Panel */
+.rightPanel {
+  display: flex;
+  align-items: center;
+}
+
+.rightPanel img {
+  width: 30vw;
+  height: auto;
+  border-radius: 20px;
+}
