@@ -1,10 +1,20 @@
 import React from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "../App.css";
 import logo3 from "../assets/logo3.png";
 
 export default function Home() {
+  const [meetingCode, setMeetingCode] = useState("");
   const routeTo = useNavigate();
+
+  const handleJoin = () => {
+    if (meetingCode.trim() === "") {
+      alert("Please enter a meeting code!");
+      return;
+    }
+    routeTo(`/${meetingCode}`); // Redirect to /<meetingCode>
+  };
 
   return (
     <div className="homeContainer">
@@ -34,11 +44,15 @@ export default function Home() {
             <h3>A calm space to connect and collaborate.</h3>
             <div className="joinContainer">
               <input
+                value={meetingCode}
+                onChange={(e) => setMeetingCode(e.target.value)}
                 type="text"
                 placeholder="Meeting Code"
                 className="meetingInput"
               />
-              <button className="joinBtn">Join</button>
+              <button className="joinBtn" onClick={handleJoin}>
+                Join
+              </button>
             </div>
           </div>
         </div>

@@ -15,30 +15,55 @@ export const connectToSocket = (server) => {
     transports: ["polling", "websocket"],
     allowEIO3: true,
   });
-  // Listens for new client connections
+
   io.on("connection", (socket) => {
-    console.log("connected", socket.id);
-    //  Event Listeners Inside Connection
-    // Event1 : Listens for when a user joins a video call  eg.path=meeting-123
+    // console.log(" User connected:", socket.id);
+
     socket.on("join-call", (path) => {
+      // console.log("\n=== JOIN-CALL DEBUG ===");
+      // console.log("User joining:", socket.id);
+      // console.log("Room:", path);
+      // console.log("Room before join:", connections[path] || "empty");
+
       if (connections[path] === undefined) {
-        // Initialize the room if it doesn't exist
-        connections[path] = []; //eg.  connections = {"meeting-123": []};..New room created
+        connections[path] = [];
       }
 
-      // Add the new user to the room
       connections[path].push(socket.id);
       timeOnline[socket.id] = new Date();
 
-      // Notify ALL existing participants
+      // console.log("Room after join:", connections[path]);
+      // console.log("========================\n");
+
+      // Tell each EXISTING user about the NEW user
       for (let a = 0; a < connections[path].length; a++) {
-        io.to(connections[path][a]).emit(
-          // tells user[a] the given info
-          "user-joined",
-          socket.id, // Who joined
-          connections[path] // Full participant list
-        );
+        const existingUserId = connections[path][a];
+
+        if (existingUserId !== socket.id) {
+          // Tell existing users: "Hey, socket.id just joined!"
+          io.to(existingUserId).emit(
+            "user-joined",
+            socket.id,
+            [socket.id] // Only send the NEW user's ID
+          );
+          // console.log(`Told ${existingUserId} about new user ${socket.id}`);
+        }
       }
+
+      // Tell the NEW user about all EXISTING users
+      const existingUsers = connections[path].filter((id) => id !== socket.id);
+      if (existingUsers.length > 0) {
+        io.to(socket.id).emit(
+          "user-joined",
+          socket.id,
+          existingUsers // Send list of existing users (without self)
+        );
+        // console.log(
+        //   `Told ${socket.id} about existing users:`,
+        //   existingUsers
+        // );
+      }
+
       // Send chat history to the new user
       if (messages[path] !== undefined) {
         for (let a = 0; a < messages[path].length; a++) {
@@ -52,15 +77,12 @@ export const connectToSocket = (server) => {
       }
     });
 
-    // Event2: Handles WebRTC signaling for video/audio connections
-    // User A(socket.id) sends a signal -> Server receives (relaying the message)-> User B(`toId`) receives the signal
     socket.on("signal", (toId, message) => {
-      io.to(toId).emit("signal", socket.id, message); // The message contains WebRTC signaling data
+      // console.log(`Relaying signal from ${socket.id} to ${toId}`);
+      io.to(toId).emit("signal", socket.id, message);
     });
 
-    // Event3:  Handles incoming chat messages
     socket.on("chat-messages", (data, sender) => {
-      // Find which room the sender is in
       let matchingRoom = "";
       let found = false;
 
@@ -71,7 +93,7 @@ export const connectToSocket = (server) => {
           break;
         }
       }
-      // If user is in a room, save the message
+
       if (found === true) {
         if (messages[matchingRoom] === undefined) {
           messages[matchingRoom] = [];
@@ -81,42 +103,33 @@ export const connectToSocket = (server) => {
           data: data,
           "socket-id-sender": socket.id,
         });
-        console.log("messages", matchingRoom, ":", sender, data);
-        //  Broadcast message to everyone in the room
+        console.log(" Message in", matchingRoom, ":", sender, data);
+
         connections[matchingRoom].forEach((elem) => {
-          console.log("ROOM DEBUG:", connections);
-          io.to(elem).emit("chat-messages", data, sender, socket.id); // ..also includes sender So that sender also sees their own message in the chat
+          io.to(elem).emit("chat-messages", data, sender, socket.id);
         });
       }
     });
 
-    // Event4 :  Automatically fires when a user loses connection
     socket.on("disconnect", () => {
-      // Calculate time online (optional - currently unused)
       var diffTime = Math.abs(new Date() - timeOnline[socket.id]);
-      console.log(`User ${socket.id} was online for ${diffTime}ms`);
+      console.log(` User ${socket.id} disconnected after ${diffTime}ms`);
 
-      // Find which room the user was in
       for (const [roomKey, userIds] of Object.entries(connections)) {
         if (userIds.includes(socket.id)) {
-          // Notify all remaining users in the room
           for (let i = 0; i < connections[roomKey].length; i++) {
             io.to(connections[roomKey][i]).emit("user-left", socket.id);
           }
 
-          // Remove user from the room
           const index = connections[roomKey].indexOf(socket.id);
           connections[roomKey].splice(index, 1);
 
-          // Delete room if empty
           if (connections[roomKey].length === 0) {
             delete connections[roomKey];
           }
 
-          // Clean up time tracking
           delete timeOnline[socket.id];
-
-          break; // Exit loop once found (user can only be in one room)
+          break;
         }
       }
     });

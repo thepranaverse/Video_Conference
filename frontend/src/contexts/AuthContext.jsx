@@ -18,12 +18,12 @@ export const AuthProvider = ({ children }) => {
     try {
       console.log("Sending registration request with:", {
         name,
-        username, // FIXED: lowercase
+        username, 
       });
 
       const request = await client.post("/register", {
         name: name,
-        username: username, // FIXED: lowercase
+        username: username, 
         password: password,
       });
 
@@ -63,10 +63,10 @@ export const AuthProvider = ({ children }) => {
 
   const handleLogin = async (username, password) => {
     try {
-      console.log("Sending login request with:", { username }); // FIXED: lowercase
+      console.log("Sending login request with:", { username }); 
 
       const request = await client.post("/login", {
-        username: username, // FIXED: lowercase to match backend
+        username: username, 
         password: password,
       });
 
@@ -99,7 +99,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const addToUserHistory = async (meetingCode) => {
-    console.log("Sending to backend:", meetingCode); // ADD THIS
+    console.log("Sending to backend:", meetingCode); 
     try {
       const request = await client.post("/add_to_activity", {
         token: localStorage.getItem("token"),

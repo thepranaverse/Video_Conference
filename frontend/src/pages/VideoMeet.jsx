@@ -57,7 +57,6 @@ export default function VideoMeetComponent() {
   let [videos, setVideos] = useState([]); //Array of all remote video streams from other participants Structure: [{socketId, stream, autoplay, playsinline}, ...]
 
   useEffect(() => {
-    console.log("HELLO");
     getPermissions();
   }, []);
   // Purpose: Start screen sharing
@@ -593,6 +592,14 @@ export default function VideoMeetComponent() {
   let connect = () => {
     setAskForUsername(false);
     getMedia();
+
+    // ✅ Attach stream once the <video> exists
+    setTimeout(() => {
+      if (window.localStream && localVideoref.current) {
+        localVideoref.current.srcObject = window.localStream;
+        console.log("✅ Stream attached successfully");
+      }
+    }, 300);
   };
 
   return (

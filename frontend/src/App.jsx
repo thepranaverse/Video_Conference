@@ -18,7 +18,7 @@ const App = () => {
             <Route path="/home" element={<Home />} />
             <Route path="/userHistory" element={<History />} />
             <Route path="/auth" element={<Auth />} />
-            <Route path="/:url" element={<VideoMeet />} />
+            <Route path="/:url" element={<VideoMeet />} /> {/* as we type anything we go to meeting page */}
           </Routes>
         </AuthProvider>
       </BrowserRouter>
