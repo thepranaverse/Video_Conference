@@ -14,7 +14,7 @@ import { AuthContext } from "../contexts/AuthContext";
 
 const defaultTheme = createTheme();
 
-function Authentication() {
+function Auth() {
   const [username, setUsername] = React.useState(""); // FIXED: lowercase
   const [password, setPassword] = React.useState("");
   const [name, setName] = React.useState("");
@@ -296,4 +296,4 @@ function Authentication() {
   );
 }
 
-export default Authentication;
+export default Auth;
