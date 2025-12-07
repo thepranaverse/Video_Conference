@@ -20,7 +20,7 @@ app.use(express.json());
 
 app.use(
   cors({
-    origin: "http://localhost:5173", // Your Vite dev server
+    origin: ["http://localhost:5173", "https://zenmeet.onrender.com"], // Your Vite dev server
     credentials: true,
   })
 );
